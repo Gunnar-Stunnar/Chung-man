@@ -122,7 +122,6 @@ function transferMoney(Id, PubId, Amount){
   usersList[sender]['amount'] = parseFloat(usersList[sender]['amount']) - parseFloat(Amount);
   usersList[reciver]['amount'] = parseFloat(usersList[reciver]['amount']) + parseFloat(Amount);
 
-  console.log(usersList);
 
   console.log("Sender("+usersList[sender]['name']+"):"+usersList[sender]['amount'] + " => Receiver("+usersList[reciver]['name']+"):"+usersList[reciver]['amount']);
   return {'status':'Success','amount':usersList[sender]['amount']};
