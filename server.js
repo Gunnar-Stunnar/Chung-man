@@ -62,8 +62,6 @@ io.on('connection', function(socket){
       console.log('Failed Trainsaction')
       var sender = findbyPrivateID(Id);
       var reciver = findbyPublicID(PubId);
-      reciver.emit('loan', reciver['loan'], 'not Working')
-      sender.emit('loan', sender['loan'], 'not Working')
     }else{
       socket.emit('MoneyReturn', ret);
       var reci = findbyPublicID(PubId);
@@ -108,19 +106,7 @@ function transferMoney(Id, PubId, Amount){
   var sender = usersList.findIndex(x => x.Id === Id);
   var reciver = usersList.findIndex(x=> x.PubId === PubId);
 
-     //Establish loans 
-     if(usersList[sender]['Id'] === Bank['Id']){
-      usersList[reciver]['loan'] = (parseFloat(usersList[reciver]['loan']) + parseFloat(Amount))*1.08;
-      console.log(usersList[reciver]['name'] + "-loan:" + usersList[reciver]['loan']);
-    }
-    if(usersList[reciver]['Id'] === Bank['Id']){
-      if(usersList[sender]['loan'] >= Amount){
-        usersList[reciver]['loan'] = (parseFloat(usersList[reciver]['loan']) - parseFloat(Amount));
-        console.log(usersList[sender]['name'] + "-loan:" + usersList[reciver]['loan']); 
-      }else{
-        return {'status': 'Failed', 'reason': "More then needed to payoff"};
-      }
-    }
+
 
   if(Amount < 0){
     return {'status':'Failed', 'reason':"can't be less then zero"};
@@ -131,6 +117,7 @@ function transferMoney(Id, PubId, Amount){
   if(usersList[sender]['amount'] < Amount){
     return {'status':'Failed', 'reason':"Insufficent Funds!"};
   }
+
 
   usersList[sender]['amount'] = parseFloat(usersList[sender]['amount']) - parseFloat(Amount);
   usersList[reciver]['amount'] = parseFloat(usersList[reciver]['amount']) + parseFloat(Amount);
