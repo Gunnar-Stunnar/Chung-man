@@ -34,6 +34,7 @@ io.on('connection', function(socket){
       usersList.push(wallet);
       socket.emit('ContactList', contactList);
       socket.emit('Id', Id,PubId);
+      socket.emit('Addcontact',contact);
       });
   });
 

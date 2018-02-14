@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     // Money transfer
     var selected = null;
-    $(document).on('click', '#Others li', function(){
+    $(document).on('click touchstart', '#Others li', function(){
       if(selected != null){
         selected.css("background-color","transparent");
       }
@@ -61,19 +61,24 @@ $(document).ready(function () {
 
     //Add contact
     socket.on('Addcontact', function(contact){
+      if(contact['PubId'] !== Cookies.get('PubId')){
       contactList.push(contact);
-      $("#Others").append('<li><a>'+contact['name']+'</a></li>');
+      $("#Others").append('<li>'+contact['name']+'</li>');
+      }
     });
 
     //Add the full list
     socket.on('ContactList', function(contacts){
       contactList = contacts;
       for(var i = 0; i < contacts.length; i++){
+        if(contacts[i]['PubId'] !== Cookies.get('PubId')){
         $("#Others").append('<li>'+contacts[i]['name']+'</li>');
+        }
       }
     });
 
     socket.on('MoneyReturn', function(ret){
+        console.log(ret);
       if(ret['status'] === 'Failed'){
         $("#status").css('background-color','red');
         $("#status").html(ret['status'] + ":" + ret['reason']);
