@@ -1,8 +1,7 @@
 var express = require('express')
 var app = express();
 var http = require('http').Server(app);
-var Wal = require('./server-code/Wallet.js');
-var transactions = require('./server-code/Transactions.js');
+var io = require('socket.io')(http);
 
 app.use(express.static("client/content/js"));
 app.use(express.static("client/content/style"));
@@ -13,11 +12,12 @@ app.get('/', function(req, res){
 
 var port = process.env.PORT || 3000;
 
-var server = app.listen(port, function(){
+
+var server = http.listen(port, function(){
   console.log('listening on port ' + port);
 });
 
-var io = require('socket.io')(server);
+
 
 io.on('connection', function(socket){
 
