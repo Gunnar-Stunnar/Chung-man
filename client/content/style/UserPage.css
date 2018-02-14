@@ -1,0 +1,61 @@
+#splashScreen{
+    z-index: 1;
+    background-image: url('https://i.pinimg.com/236x/97/8f/85/978f85f44e45d0a63a2100168dc02a14--organic-patterns-art-patterns.jpg');
+
+}
+
+#body{
+  margin: 0px;
+  border: 0px;
+  height:100%;
+}
+
+#bod{
+  background-image: url('https://i.pinimg.com/736x/03/3b/e0/033be0884613cb056fc4506a5c80a110--chinese-flowers-creative-artwork.jpg');
+}
+
+#currency{
+  text-align: center;
+  opacity: 0.6;
+}
+#loans{
+  border-top:  2px solid black;
+  opacity: 0.6;
+}
+#time{
+  border-left: 1px solid black;
+
+}
+
+#name-list{
+  overflow:scroll;
+  height: 200px;
+}
+
+p{
+  margin: 0px;
+}
+
+#name-list{
+  border: 1px solid black;
+}
+
+#Others li{
+  border-bottom: 0px;
+}
+
+#TransButton {
+  background-color: grey;
+}
+
+#formName{
+  background-color: white;
+  opacity: 0.6;
+  padding: 8px;
+  border: 1px;
+  height: 40px;
+}
+
+#amountInput{
+  opacity: 0.6;
+}

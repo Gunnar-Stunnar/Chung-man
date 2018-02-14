@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!--Scripts-->
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="setup.js"></script>
+    <script src="cookies.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="UserPage.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3mobile.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-metro.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <!-- Main Screen -->
+    <div class="w3-container" id="bod">
+      <h1 class="w3-center">Wallet</h1>
+      <!-- Wallet Information -->
+      <div class="w3-row w3-metro-dark-orange" id="currency">$0.0</div>
+      <div class="w3-row w3-metro-dark-orange" id="loans">
+        <p class='w3-col m6 s6 w3-center' id="loan">Loan: </p>
+        <p class='w3-col m6 s6 w3-center' id="time">Time: </p>
+      </div>
+      <br>
+
+      <!-- Transactions List -->
+      <div class = "w3-row" id = 'name-list'>
+        <ul class="w3-ul w3-center " id='Others'>
+        </ul>
+      </div>
+      <div class='w3-col m6 s6 w3-center' id="formName"></div>
+      <input class = 'w3-input w3-border w3-col m6 s6' name="amount" type="number" id='amountInput' placeholder="Amount"></input>
+      <div class='w3-col m12 s12 w3-center' id="TransButton">Send</div>
+      <div class='w3-col m12 s12 w3-center' id="status"></div>
+
+      <!-- Loans Algorithm -->
+      <br>
+      <div class="w3-container" id="Loans-container">
+
+      </div>
+    </div>
+
+    <!-- spash screen -->
+    <div class="w3-container w3-center w3-margin" id="splashScreen">
+      <div class="w3-card w3-container w3-padding-16 w3-display-middle w3-third" >
+        <form>
+        <label> Name <label>
+          <input class="w3-input" type="text" id="name">
+          <div class="w3-button w3-metro-dark-orange w3-margin" id = "start"><span>Start<span></div>
+        </form>
+      </div>
+
+
+
+    </div>
+  </body>
+</html>
