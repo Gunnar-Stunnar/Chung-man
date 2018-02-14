@@ -42,7 +42,7 @@ io.on('connection', function(socket){
     try{
     findbyPrivateID(id)['socket'] = socket;
     } catch(error){
-      io.sockets.emit('refresh');
+      socket.emit('refresh');
       return; 
     }
     socket.emit('UpdateWallet', findbyPrivateID(id)['amount']);
@@ -52,10 +52,10 @@ io.on('connection', function(socket){
   socket.on('shareMoney', function(Id, PubId, Amount){
     var ret = transferMoney(Id, PubId, Amount);
     if(ret['status'] == 'Failed'){
-      io.sockets.emit('MoneyReturn', ret);
+      socket.emit('MoneyReturn', ret);
       console.log('Failed Trainsaction')
     }else{
-      io.sockets.emit('MoneyReturn', ret);
+      socket.emit('MoneyReturn', ret);
       var reci = findbyPublicID(PubId);
       reci['socket'].emit('UpdateWallet',reci['amount']);
     }
