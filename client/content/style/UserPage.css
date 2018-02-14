@@ -42,6 +42,10 @@ p{
 
 #Others li{
   border-bottom: 0px;
+  height:40px;
+}
+#Others {
+  background-color: rgba(255,255,255,0.4);
 }
 
 #TransButton {
@@ -58,4 +62,9 @@ p{
 
 #amountInput{
   opacity: 0.6;
+}
+
+.loan{
+ font-size: 30px;
+ background-color:rgba(255,255,255,0.4);
 }

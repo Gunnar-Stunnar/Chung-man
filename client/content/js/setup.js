@@ -103,6 +103,11 @@ $(document).ready(function () {
       $("#currency").html('$'+amount);
     });
 
+    //Loan updates
+    socket.on('loan', function(loan,time){
+      $("#loan").html("Loan: " + loan);
+      $("#time").html("time: " + time);
+    });
 
 
 });
