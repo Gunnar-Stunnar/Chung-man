@@ -12,8 +12,9 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + "/client/index.html");
 });
 
+var port = process.env.PORT | 3000;
 
-var server = app.listen(3000, function(){
+var server = app.listen(port, function(){
   console.log('listening on port 3000');
 });
 
