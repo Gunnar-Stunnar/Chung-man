@@ -11,6 +11,8 @@ $(document).ready(function () {
     });
   }
 
+
+
   //Entry point of no cookie is found
     $("#start").click(function(){
       if($("#name").val() != ''){
@@ -19,6 +21,13 @@ $(document).ready(function () {
         socket.emit('newUser',$("#name").val());
       });
     }
+    });
+
+    //If server restart happens
+    socket.on('refresh',function(){
+      Cookies.remove('Id');
+      Cookies.remove('PubId');
+      location.reload(true);
     });
 
     // Money transfer
@@ -30,25 +39,26 @@ $(document).ready(function () {
       selected = $(this);
       selected.css("background-color","rgba(0,0,0,0.5)");
       $("#formName").html(selected.html());
-      console.log(contactList.find(x => x.name === selected.html()).PubId);
-      console.log(selected.html());
     });
 
     //transfer money
     $("#TransButton").click(function(){
-      if($('#amountInput').value == null){
+      if($('#amountInput').val() == ""){
         $('#amountInput').css('background-color','red');
-      } if(selected == null){
+      }else if(selected == null){
         $("#formName").css('background-color','red');
       }else{
         //if everything is filled in then call share money
         $('#amountInput').css('background-color','white');
         $("#formName").css('background-color','white');
-        console.log(contactList.find(x => x.name === selected.html())['PubId']);
         socket.emit('shareMoney',
           Cookies.get('Id'),
-          contactList.find(x => x.name === selected.html())['PubId'],
-          $('#amountInput').value);
+          contactList.find(x => x.name === selected.html())['PubId'],$('#amountInput').val());
+
+          $('#amountInput').val('');
+          $("#formName").html("");
+          selected.css("background-color","transparent");
+          selected = null;          
       }
 
     });
@@ -84,10 +94,14 @@ $(document).ready(function () {
         $("#status").html(ret['status'] + ":" + ret['reason']);
       }else {
         $("#status").css('background-color','green');
+        $("#status").html('SUCCESS!')
         $("#currency").html('$'+ret['amount']);
       }
     });
 
+    socket.on('UpdateWallet', function(amount){
+      $("#currency").html('$'+amount);
+    });
 
 
 

@@ -24,34 +24,40 @@ io.on('connection', function(socket){
 
   //If the user is new then generate Id and PubId
   socket.on('newUser', function(name){
-    crypto.randomBytes(64, function(ex, buf) {
-      if (ex) throw ex;
-      var Id = buf.toString('hex');
-      var PubId = buf.toString('hex');
-      var wallet = {'name':name, 'Id':Id, 'PubId':PubId, 'socket':socket, 'amount':0.0};
+      var Id = crypto.randomBytes(32).toString('hex');
+      var PubId = crypto.randomBytes(32).toString('hex');
+      var wallet = {'name':name, 'Id':Id, 'PubId':PubId, 'socket':socket, 'amount':20.0};
       var contact = {'name':name,'PubId':PubId};
       contactList.push(contact);
       usersList.push(wallet);
-      socket.emit('ContactList', contactList);
       socket.emit('Id', Id,PubId);
-      socket.emit('Addcontact',contact);
-      });
+      socket.emit('ContactList', contactList);
+      socket.emit('UpdateWallet', wallet['amount'])
+      io.emit('Addcontact',contact);
+  
   });
 
   //If the user is not new then look for Wallet and set socket
   socket.on('AlreadyUser', function(id){
+    try{
     findbyPrivateID(id)['socket'] = socket;
+    } catch(error){
+      io.sockets.emit('refresh');
+      return; 
+    }
+    socket.emit('UpdateWallet', findbyPrivateID(id)['amount']);
     socket.emit('ContactList', contactList);
   });
 
   socket.on('shareMoney', function(Id, PubId, Amount){
     var ret = transferMoney(Id, PubId, Amount);
-    if(ret['status'] === 'Failed'){
+    if(ret['status'] == 'Failed'){
       io.sockets.emit('MoneyReturn', ret);
+      console.log('Failed Trainsaction')
     }else{
       io.sockets.emit('MoneyReturn', ret);
       var reci = findbyPublicID(PubId);
-      reci['socket'].emit('MoneyUpdate',reci['amount']);
+      reci['socket'].emit('UpdateWallet',reci['amount']);
     }
 
   });
@@ -81,7 +87,6 @@ function findbyPrivateID(id){
 function transferMoney(Id, PubId, Amount){
   var sender = usersList.findIndex(x => x.Id === Id);
   var reciver = usersList.findIndex(x=> x.PubId === PubId);
-  console.log("" + sender + "" + reciver);
 
   if(Amount < 0){
     return {'status':'Failed', 'reason':"can't be less then zero"};
@@ -89,8 +94,13 @@ function transferMoney(Id, PubId, Amount){
   if(usersList[sender]['amount'] < Amount){
     return {'status':'Failed', 'reason':"Insufficent funds"};
   }
-  usersList[sender]['amount'] = usersList[sender]['amount'] - Amount;
-  usersList[reciver]['amount'] = usersList[sender]['amount'] + Amount;
 
+  usersList[sender]['amount'] = parseFloat(usersList[sender]['amount']) - parseFloat(Amount);
+  usersList[reciver]['amount'] = parseFloat(usersList[reciver]['amount']) + parseFloat(Amount);
+
+
+  console.log("Sender("+usersList[sender]['name']+"):"+usersList[sender]['amount'] + " => Receiver("+usersList[reciver]['name']+"):"+usersList[reciver]['amount']);
   return {'status':'Success','amount':usersList[sender]['amount']};
+
+  
 }
