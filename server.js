@@ -3,7 +3,6 @@ var app = express();
 var http = require('http').Server(app);
 var Wal = require('./server-code/Wallet.js');
 var transactions = require('./server-code/Transactions.js');
-var crypto = require('crypto');
 
 app.use(express.static("client/content/js"));
 app.use(express.static("client/content/style"));
@@ -12,10 +11,10 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + "/client/index.html");
 });
 
-var port = process.env.PORT | 3000;
+var port = process.env.PORT || 3000;
 
 var server = app.listen(port, function(){
-  console.log('listening on port 3000');
+  console.log('listening on port ' + port);
 });
 
 var io = require('socket.io')(server);
