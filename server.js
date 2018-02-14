@@ -61,7 +61,9 @@ io.on('connection', function(socket){
       socket.emit('MoneyReturn', ret);
       console.log('Failed Trainsaction')
       var sender = findbyPrivateID(Id);
-      socket.emit('loan', sender['loan'], 'not Working')
+      var reciver = findbyPublicID(PubId);
+      reciver.emit('loan', reciver['loan'], 'not Working')
+      sender.emit('loan', sender['loan'], 'not Working')
     }else{
       socket.emit('MoneyReturn', ret);
       var reci = findbyPublicID(PubId);
